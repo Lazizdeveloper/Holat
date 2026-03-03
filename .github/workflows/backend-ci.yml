@@ -1,0 +1,97 @@
+name: Backend CI
+
+on:
+  push:
+    paths:
+      - "backend/**"
+      - ".github/workflows/backend-ci.yml"
+  pull_request:
+    paths:
+      - "backend/**"
+      - ".github/workflows/backend-ci.yml"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: holat_backend
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d holat_backend"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    defaults:
+      run:
+        working-directory: backend
+
+    env:
+      NODE_ENV: test
+      PORT: 4000
+      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/holat_backend
+      DB_MIGRATIONS_RUN: "true"
+      DB_SSL: "false"
+      JWT_SECRET: 12345678901234567890123456789012
+      JWT_REFRESH_SECRET: 12345678901234567890123456789012
+      CORS_ORIGINS: http://localhost:5173
+      SWAGGER_ENABLED: "false"
+      METRICS_ENABLED: "true"
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: backend/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Unit tests
+        run: npm run test:unit
+
+      - name: Run migrations
+        run: npm run migration:run
+
+      - name: Start backend
+        run: |
+          npm run start &
+          echo $! > backend.pid
+
+      - name: Wait for health
+        run: |
+          for i in {1..40}; do
+            if curl -sf http://localhost:4000/api/health >/dev/null; then
+              echo "Backend is up"
+              exit 0
+            fi
+            sleep 2
+          done
+          echo "Backend did not start in time" >&2
+          exit 1
+
+      - name: Integration tests
+        run: npm run test:integration
+
+      - name: Smoke tests
+        run: npm run smoke
+
+      - name: Stop backend
+        if: always()
+        run: |
+          if [ -f backend.pid ]; then
+            kill "$(cat backend.pid)" || true
+          fi

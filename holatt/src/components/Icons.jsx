@@ -1,0 +1,141 @@
+/**
+ * Zamonaviy Lucide ikonlar — HOLAT platformasi uchun
+ */
+import {
+  User,
+  Landmark,
+  Map,
+  MapPin,
+  ImagePlus,
+  Sparkles,
+  ClipboardList,
+  BarChart3,
+  RefreshCw,
+  Scale,
+  TrendingUp,
+  Inbox,
+  FileSearch,
+  Route,
+  School,
+  Hospital,
+  Droplet,
+  Zap,
+  Flame,
+  Trees,
+  Wrench,
+  Leaf,
+  Shield,
+  Building2,
+  HardHat,
+  Monitor,
+  Search,
+  Plus,
+  ThumbsUp,
+  Check,
+  X,
+  AlertTriangle,
+  ChevronLeft,
+  Bell,
+  Mail,
+  Globe,
+  LogOut,
+  Locate,
+  Send,
+  Lock,
+  Menu,
+} from "lucide-react";
+
+const iconSize = { width: 18, height: 18 };
+const iconSizeSm = { width: 14, height: 14 };
+const iconSizeLg = { width: 24, height: 24 };
+const iconSizeXl = { width: 40, height: 40 };
+
+export const CatIcons = {
+  road: Route,
+  school: School,
+  hospital: Hospital,
+  water: Droplet,
+  electricity: Zap,
+  gas: Flame,
+  park: Trees,
+};
+
+export const NavIcons = {
+  map: Map,
+  regions: MapPin,
+  myreports: ClipboardList,
+  profile: User,
+};
+
+export const GovNavIcons = {
+  map: MapPin,
+  overview: BarChart3,
+  regions: Map,
+  ministries: Landmark,
+  incoming: Inbox,
+  inprogress: RefreshCw,
+  claims: Scale,
+  analytics: TrendingUp,
+  accountability: FileSearch,
+};
+
+export const MiscIcons = {
+  User,
+  Landmark,
+  Map,
+  MapPin,
+  ImagePlus,
+  Sparkles,
+  ClipboardList,
+  BarChart3,
+  RefreshCw,
+  Scale,
+  TrendingUp,
+  Inbox,
+  FileSearch,
+  Search,
+  Plus,
+  ThumbsUp,
+  Check,
+  X,
+  AlertTriangle,
+  ChevronLeft,
+  Bell,
+  Mail,
+  Globe,
+  LogOut,
+  Locate,
+  Send,
+  Lock,
+  Route,
+  School,
+  Hospital,
+  Droplet,
+  Zap,
+  Flame,
+  Trees,
+  Wrench,
+  Leaf,
+  Shield,
+  Building2,
+  HardHat,
+  Monitor,
+  Menu,
+};
+
+export const MinistryIcons = {
+  road: Route,
+  communal: Wrench,
+  energy: Zap,
+  water: Droplet,
+  education: School,
+  health: Hospital,
+  labor: HardHat,
+  urban: Building2,
+  ecology: Leaf,
+  police: Shield,
+  digital: Monitor,
+  hokimlik: Scale,
+};
+
+export { iconSize, iconSizeSm, iconSizeLg, iconSizeXl };
